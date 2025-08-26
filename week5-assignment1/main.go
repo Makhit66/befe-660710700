@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-
+	
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,11 +14,12 @@ type Notebook struct {
 	Price int    `json:"price"`
 }
 type Employees struct {
-    ID       	string  `json:"id"`
-    Name     	string  `json:"name"`
-	Position   	string  `json:"position"`
-    Salary     	int     `json:"salary"`
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Position string `json:"position"`
+	Salary   int    `json:"salary"`
 }
+
 var notebook = []Notebook{
 	{ID: "01", Name: "Gigabyte GAMING A16", Type: "Gigabyte", Price: 36990},
 	{ID: "02", Name: "Lenovo LOQ", Type: "Lenovo", Price: 35990},
@@ -65,12 +66,12 @@ var employees = []Employees{
 	},
 }
 
-func getNotebookstore(c *gin.Context) {
+func getNotebook(c *gin.Context) {
 	notebookID := c.Query("id")
-	if (notebookID != "") {
+	if notebookID != "" {
 		filter := []Notebook{}
 		for _, nb := range notebook {
-			if (fmt.Sprint(nb.ID) == notebookID){
+			if fmt.Sprint(nb.ID) == notebookID {
 				filter = append(filter, nb)
 			}
 		}
@@ -82,17 +83,17 @@ func getNotebookstore(c *gin.Context) {
 
 func getEmployee(c *gin.Context) {
 	employeeID := c.Query("id")
-		if (employeeID != "") {
-			filter := []Employees{}
-			for _, employee := range employees {
-				if (fmt.Sprint(employee.ID) == employeeID){
-					filter = append(filter, employee)
-				}
+	if employeeID != "" {
+		filter := []Employees{}
+		for _, employee := range employees {
+			if fmt.Sprint(employee.ID) == employeeID {
+				filter = append(filter, employee)
 			}
-			c.JSON(http.StatusOK, filter)
-			return
 		}
-		c.JSON(http.StatusOK, employees)
+		c.JSON(http.StatusOK, filter)
+		return
+	}
+	c.JSON(http.StatusOK, employees)
 }
 
 func main() {
@@ -104,7 +105,7 @@ func main() {
 
 	api := r.Group("/api/v1")
 	{
-		api.GET("/bookstores", getNotebookstore)
+		api.GET("/notebook", getNotebook)
 		api.GET("/employees", getEmployee)
 	}
 
