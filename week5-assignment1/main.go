@@ -111,3 +111,6 @@ func main() {
 
 	r.Run(":8080")
 }
+//curl http://localhost:8080/health
+// curl http://localhost:8080/api/v1/notebook?id=03
+// curl http://localhost:8080/api/v1/employees?id=A02
