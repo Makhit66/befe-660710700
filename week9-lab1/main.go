@@ -9,6 +9,7 @@ import (
 	"time"
 	"github.com/gin-gonic/gin"
 	_"github.com/lib/pq"
+    "github.com/gin-contrib/cors"
 )
 
 type Book struct {
@@ -200,6 +201,8 @@ func deleteBook(c *gin.Context) {
 	initDB()
 	defer db.Close()
 	r := gin.Default()
+
+    r.Use(cors.Default())
 
 	r.GET("/health", func(c *gin.Context){
 		err := db.Ping()
