@@ -3,24 +3,24 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 //import BookCard from '../components/BookCard';
 //import LoadingSpinner from '../components/LoadingSpinner';
 //import './BookDetailPage.css';
-
+ 
 const BookDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
     const fetchBook = async () => {
       try {
         setLoading(true);
         const response = await fetch(`/api/v1/books/${id}`);
-
+ 
         if (!response.ok) {
           throw new Error('Failed to fetch book details');
         }
-
+ 
         const data = await response.json();
         setBook(data);
         setError(null);
@@ -31,12 +31,12 @@ const BookDetailPage = () => {
         setLoading(false);
       }
     };
-
+ 
     if (id) {
       fetchBook();
     }
   }, [id]);
-
+ 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -44,7 +44,7 @@ const BookDetailPage = () => {
       </div>
     );
   }
-
+ 
   if (error) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
@@ -55,7 +55,7 @@ const BookDetailPage = () => {
       </div>
     );
   }
-
+ 
   if (!book) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
@@ -66,13 +66,13 @@ const BookDetailPage = () => {
       </div>
     );
   }
-
+ 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Link to="/books" className="text-blue-600 hover:underline mb-4 inline-block">
+      <Link to="/books"  state={{ book }} className="text-blue-600 hover:underline mb-4 inline-block">
         ← Back to Book List
       </Link>
-
+ 
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
         <div className="space-y-3">
@@ -85,5 +85,5 @@ const BookDetailPage = () => {
     </div>
   );
 };
-
+ 
 export default BookDetailPage;
